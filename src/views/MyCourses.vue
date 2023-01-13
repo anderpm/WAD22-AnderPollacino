@@ -9,6 +9,7 @@
             <th>Semester</th>
             <th>Homeworks</th>
             <th>Exam</th>
+            <th>Grade</th>
           </tr>
           <tr class="item" v-for="course in courses" :key="course.id">
             <td @click="showdescription(course.id)" class="code">{{ course.code }} </td>
@@ -16,6 +17,7 @@
             <td>{{ course.semester }} </td>
             <td>{{ course.homeworks }} </td> 
             <td>{{ course.exam }}</td>
+            <td>{{ course.homeworks + course.exam }}</td>
           </tr>
     </table>
     </div>
