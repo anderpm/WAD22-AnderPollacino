@@ -21,7 +21,10 @@
             <td class="gradeRed" v-if="course.exam < 21 || course.homeworks+course.exam < 51">{{ course.homeworks + course.exam }}</td>
             <td class="gradeBlue" v-else>{{ course.homeworks + course.exam }}</td>
           </tr>
-    </table>
+      </table>
+    </div>
+    <div class="description" v-for="course in descriptionCourse" :key="course.id">
+      <p><b>Course description: </b>{{ course.description }}</p>
     </div>
   </div>
 </template>
@@ -32,6 +35,7 @@ export default {
   data() {
     return {
       courses: [],
+      descriptionCourse: [],
     };
   },
   methods: {
@@ -40,7 +44,13 @@ export default {
         .then((response) => response.json())
         .then((data) => (this.courses = data))
         .catch((err) => console.log(err.message));
-   },
+    },
+    showdescription(courseId){
+      fetch(`http://localhost:3000/api/mycourses/${courseId}`)
+        .then((response) => response.json())
+        .then((data) => (this.descriptionCourse = data))
+        .catch((err) => console.log(err.message));
+    },
   },
   mounted() {
     this.fetchCourses();
@@ -89,5 +99,18 @@ th, td {
 .gradeBlue{
   background-color: blue;
   color: white;
+}
+.description {
+  background: yellow;
+  /*box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.2);*/
+  margin-bottom: 30px;
+  padding: 10px 20px;
+  margin: auto;
+  width: 90%;
+  display: flex;
+  justify-content: center;
+}
+.code:hover{
+  background-color: yellow;
 }
 </style>

@@ -28,3 +28,16 @@ app.get('/api/mycourses', async(req, res) => {
         console.error(err.message);
     }
 });
+
+app.get('/api/mycourses/:id', async(req, res) => {
+    try {
+        console.log("get a post with course parameter request has arrived");
+        const { id } = req.params;
+        const posts = await pool.query(
+            "SELECT * FROM mycourses WHERE id = $1", [id]
+        );
+        res.json(posts.rows);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
