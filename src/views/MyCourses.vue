@@ -10,6 +10,7 @@
             <th>Homeworks</th>
             <th>Exam</th>
             <th>Grade</th>
+            <th>Note</th>
           </tr>
           <tr class="item" v-for="course in courses" :key="course.id">
             <td @click="showdescription(course.id)" class="code">{{ course.code }} </td>
@@ -20,6 +21,8 @@
             <td class="examBlue" v-else>{{ course.exam }}</td>
             <td class="gradeRed" v-if="course.exam < 21 || course.homeworks+course.exam < 51">{{ course.homeworks + course.exam }}</td>
             <td class="gradeBlue" v-else>{{ course.homeworks + course.exam }}</td>
+            <td><input type="text" id="note" name="note" placeholder="note" required v-model="course.note"/></td>
+            <td><button class="update" @click="updateNote(course.id, course.note)">update</button></td>  
           </tr>
       </table>
     </div>
@@ -45,12 +48,28 @@ export default {
         .then((data) => (this.courses = data))
         .catch((err) => console.log(err.message));
     },
-    showdescription(courseId){
+    showdescription(courseId) {
       fetch(`http://localhost:3000/api/mycourses/${courseId}`)
         .then((response) => response.json())
         .then((data) => (this.descriptionCourse = data))
         .catch((err) => console.log(err.message));
     },
+    updateNote(id, note) {
+      fetch(`http://localhost:3000/api/mycourses/${id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify( {"id": id, "note": note}),
+            })
+        .then((response) => {
+          //console.log("response.data" + response.data);
+          this.$router.push("/");
+        })
+        .catch((e) => {
+          console.log(e);
+      });
+    }
   },
   mounted() {
     this.fetchCourses();
@@ -112,5 +131,8 @@ th, td {
 }
 .code:hover{
   background-color: yellow;
+}
+.update{
+  background-color: blue;
 }
 </style>
