@@ -16,8 +16,10 @@
             <td>{{ course.title}} </td>
             <td>{{ course.semester }} </td>
             <td>{{ course.homeworks }} </td> 
-            <td>{{ course.exam }}</td>
-            <td>{{ course.homeworks + course.exam }}</td>
+            <td class="examRed" v-if="course.exam < 21">{{ course.exam }}</td>
+            <td class="examBlue" v-else>{{ course.exam }}</td>
+            <td class="gradeRed" v-if="course.exam < 21 || course.homeworks+course.exam < 51">{{ course.homeworks + course.exam }}</td>
+            <td class="gradeBlue" v-else>{{ course.homeworks + course.exam }}</td>
           </tr>
     </table>
     </div>
@@ -71,5 +73,21 @@ th, td {
   width: 90%;
   display: flex;
   justify-content: center;
+}
+.examRed{
+  background-color: red;
+  color: white;
+}
+.examBlue{
+  background-color: blue;
+  color: white;
+}
+.gradeRed{
+  background-color: red;
+  color: white;
+}
+.gradeBlue{
+  background-color: blue;
+  color: white;
 }
 </style>
